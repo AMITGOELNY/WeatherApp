@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ghn.testdemo"
+    namespace = "com.ghn.weather"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.ghn.testdemo"
+        applicationId = "com.ghn.weather"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
