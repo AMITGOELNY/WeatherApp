@@ -2,6 +2,8 @@
 
 Android weather app built with Jetpack Compose and Kotlin.
 
+<img src="assets/weather.jpg" height="500" alt="Weather App" />
+
 ## Features
 
 - Current weather conditions
