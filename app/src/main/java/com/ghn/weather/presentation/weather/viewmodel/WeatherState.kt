@@ -13,5 +13,5 @@ data class WeatherState(
     val dailyForecast: List<DailyWeather> = emptyList(),
     val location: Location? = null,
     val error: String? = null,
-    val temperatureUnit: TemperatureUnit = TemperatureUnit.CELSIUS
+    val temperatureUnit: TemperatureUnit = TemperatureUnit.FAHRENHEIT
 )

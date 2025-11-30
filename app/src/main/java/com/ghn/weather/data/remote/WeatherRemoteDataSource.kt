@@ -9,7 +9,7 @@ class WeatherRemoteDataSource @Inject constructor(
     suspend fun getWeather(
         latitude: Double,
         longitude: Double,
-        temperatureUnit: String = "celsius"
+        temperatureUnit: String = "fahrenheit"
     ): WeatherResponseDto {
         // Wind speed unit should match temperature unit convention:
         // Celsius -> km/h, Fahrenheit -> mph

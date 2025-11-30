@@ -10,11 +10,11 @@ interface OpenMeteoApiService {
     suspend fun getWeather(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("temperature_unit") temperatureUnit: String = "celsius",
-        @Query("wind_speed_unit") windSpeedUnit: String = "kmh",
+        @Query("temperature_unit") temperatureUnit: String = "fahrenheit",
+        @Query("wind_speed_unit") windSpeedUnit: String = "mph",
         @Query("current") current: String = "temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code",
         @Query("hourly") hourly: String = "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
-        @Query("daily") daily: String = "temperature_2m_max,temperature_2m_min,weather_code",
+        @Query("daily") daily: String = "temperature_2m_max,temperature_2m_min,weather_code,sunrise,sunset",
         @Query("timezone") timezone: String = "auto",
         @Query("forecast_days") forecastDays: Int = 7
     ): WeatherResponseDto
