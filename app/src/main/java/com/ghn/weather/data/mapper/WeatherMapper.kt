@@ -50,7 +50,9 @@ private fun com.ghn.weather.data.dto.DailyWeatherDto.toDomain(): List<DailyWeath
             date = time[index],
             temperatureMax = temperatureMax[index],
             temperatureMin = temperatureMin[index],
-            weatherCode = WeatherCode.fromCode(weatherCode[index])
+            weatherCode = WeatherCode.fromCode(weatherCode[index]),
+            sunrise = sunrise[index],
+            sunset = sunset[index]
         )
     }
 }

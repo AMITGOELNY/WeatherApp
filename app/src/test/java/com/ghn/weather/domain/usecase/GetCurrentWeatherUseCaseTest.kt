@@ -89,7 +89,7 @@ class GetCurrentWeatherUseCaseTest {
                 HourlyWeather("2024-01-15T15:00", 29.0, 62, 11.0, WeatherCode.CLEAR_SKY)
             ),
             dailyForecast = listOf(
-                DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY)
+                DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY, "2024-01-15T06:45", "2024-01-15T19:32")
             )
         )
     }

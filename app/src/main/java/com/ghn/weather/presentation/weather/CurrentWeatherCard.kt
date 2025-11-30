@@ -47,6 +47,8 @@ fun CurrentWeatherCard(
     currentWeather: CurrentWeather,
     location: Location?,
     temperatureUnit: TemperatureUnit,
+    sunriseTime: String?,
+    sunsetTime: String?,
     modifier: Modifier = Modifier
 ) {
     val theme = getWeatherTheme(currentWeather.weatherCode)
@@ -164,12 +166,13 @@ fun CurrentWeatherCard(
             Spacer(modifier = Modifier.height(28.dp))
 
             // Sun times bar
-            // TODO: Replace with actual sunrise/sunset data from API
-            SunTimesBar(
-                sunriseTime = "6:45 AM",
-                sunsetTime = "7:32 PM",
-                theme = theme
-            )
+            if (sunriseTime != null && sunsetTime != null) {
+                SunTimesBar(
+                    sunriseTime = formatSunTime(sunriseTime),
+                    sunsetTime = formatSunTime(sunsetTime),
+                    theme = theme
+                )
+            }
         }
     }
 }
@@ -297,6 +300,15 @@ private fun SunTimesBar(
     }
 }
 
+private fun formatSunTime(isoTime: String): String {
+    return try {
+        val dateTime = java.time.LocalDateTime.parse(isoTime)
+        dateTime.format(java.time.format.DateTimeFormatter.ofPattern("h:mm a"))
+    } catch (e: Exception) {
+        isoTime
+    }
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // PREVIEW PARAMETER PROVIDER
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -398,7 +410,9 @@ private fun CurrentWeatherCardPreview(
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(weatherCode),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -416,7 +430,9 @@ private fun PreviewClearSky() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.CLEAR_SKY),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -434,7 +450,9 @@ private fun PreviewPartlyCloudy() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.PARTLY_CLOUDY),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -452,7 +470,9 @@ private fun PreviewRainy() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.MODERATE_RAIN),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -470,7 +490,9 @@ private fun PreviewHeavyRain() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.HEAVY_RAIN),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -488,7 +510,9 @@ private fun PreviewSnow() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.MODERATE_SNOW),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -506,7 +530,9 @@ private fun PreviewThunderstorm() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.THUNDERSTORM),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -524,7 +550,9 @@ private fun PreviewFog() {
             CurrentWeatherCard(
                 currentWeather = createPreviewWeather(WeatherCode.FOG),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.CELSIUS
+                temperatureUnit = TemperatureUnit.CELSIUS,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }
@@ -549,7 +577,9 @@ private fun PreviewFahrenheit() {
                     weatherCode = WeatherCode.CLEAR_SKY
                 ),
                 location = previewLocation,
-                temperatureUnit = TemperatureUnit.FAHRENHEIT
+                temperatureUnit = TemperatureUnit.FAHRENHEIT,
+                sunriseTime = "2024-01-15T06:45",
+                sunsetTime = "2024-01-15T19:32"
             )
         }
     }

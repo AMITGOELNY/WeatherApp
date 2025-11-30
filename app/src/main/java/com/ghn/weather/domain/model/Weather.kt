@@ -34,7 +34,9 @@ data class DailyWeather(
     val date: String,
     val temperatureMax: Double,
     val temperatureMin: Double,
-    val weatherCode: WeatherCode
+    val weatherCode: WeatherCode,
+    val sunrise: String,
+    val sunset: String
 )
 
 enum class WeatherCode(val code: Int, val description: String) {

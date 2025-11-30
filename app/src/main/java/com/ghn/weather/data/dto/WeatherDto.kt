@@ -58,5 +58,9 @@ data class DailyWeatherDto(
     @SerialName("temperature_2m_min")
     val temperatureMin: List<Double>,
     @SerialName("weather_code")
-    val weatherCode: List<Int>
+    val weatherCode: List<Int>,
+    @SerialName("sunrise")
+    val sunrise: List<String>,
+    @SerialName("sunset")
+    val sunset: List<String>
 )

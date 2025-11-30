@@ -395,7 +395,9 @@ private fun WeatherContent(
                     CurrentWeatherCard(
                         currentWeather = current,
                         location = state.location,
-                        temperatureUnit = state.temperatureUnit
+                        temperatureUnit = state.temperatureUnit,
+                        sunriseTime = state.dailyForecast.firstOrNull()?.sunrise,
+                        sunsetTime = state.dailyForecast.firstOrNull()?.sunset
                     )
                 }
             }
@@ -503,13 +505,13 @@ private fun WeatherScreenContentPreview() {
             HourlyWeather("2024-01-15T19:00", 24.0, 72, 7.5, WeatherCode.CLEAR_SKY)
         ),
         dailyForecast = listOf(
-            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY),
-            DailyWeather("2024-01-16", 28.0, 21.0, WeatherCode.PARTLY_CLOUDY),
-            DailyWeather("2024-01-17", 26.0, 20.0, WeatherCode.LIGHT_RAIN),
-            DailyWeather("2024-01-18", 25.0, 19.0, WeatherCode.MODERATE_RAIN),
-            DailyWeather("2024-01-19", 27.0, 20.0, WeatherCode.MAINLY_CLEAR),
-            DailyWeather("2024-01-20", 29.0, 21.0, WeatherCode.CLEAR_SKY),
-            DailyWeather("2024-01-21", 30.0, 22.0, WeatherCode.CLEAR_SKY)
+            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY, "2024-01-15T06:45", "2024-01-15T19:32"),
+            DailyWeather("2024-01-16", 28.0, 21.0, WeatherCode.PARTLY_CLOUDY, "2024-01-16T06:44", "2024-01-16T19:33"),
+            DailyWeather("2024-01-17", 26.0, 20.0, WeatherCode.LIGHT_RAIN, "2024-01-17T06:44", "2024-01-17T19:34"),
+            DailyWeather("2024-01-18", 25.0, 19.0, WeatherCode.MODERATE_RAIN, "2024-01-18T06:43", "2024-01-18T19:35"),
+            DailyWeather("2024-01-19", 27.0, 20.0, WeatherCode.MAINLY_CLEAR, "2024-01-19T06:43", "2024-01-19T19:36"),
+            DailyWeather("2024-01-20", 29.0, 21.0, WeatherCode.CLEAR_SKY, "2024-01-20T06:42", "2024-01-20T19:37"),
+            DailyWeather("2024-01-21", 30.0, 22.0, WeatherCode.CLEAR_SKY, "2024-01-21T06:41", "2024-01-21T19:38")
         ),
         location = Location(
             latitude = 25.7617,

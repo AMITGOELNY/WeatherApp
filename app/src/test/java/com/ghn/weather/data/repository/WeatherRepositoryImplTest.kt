@@ -110,7 +110,9 @@ class WeatherRepositoryImplTest {
                 time = listOf("2024-01-15", "2024-01-16"),
                 temperatureMax = listOf(30.0, 28.0),
                 temperatureMin = listOf(22.0, 21.0),
-                weatherCode = listOf(0, 2)
+                weatherCode = listOf(0, 2),
+                sunrise = listOf("2024-01-15T06:45", "2024-01-16T06:44"),
+                sunset = listOf("2024-01-15T19:32", "2024-01-16T19:33")
             )
         )
     }

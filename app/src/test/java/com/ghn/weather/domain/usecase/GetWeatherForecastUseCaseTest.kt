@@ -73,8 +73,8 @@ class GetWeatherForecastUseCaseTest {
         )
 
         private val testDailyForecast = listOf(
-            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY),
-            DailyWeather("2024-01-16", 28.0, 21.0, WeatherCode.PARTLY_CLOUDY)
+            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY, "2024-01-15T06:45", "2024-01-15T19:32"),
+            DailyWeather("2024-01-16", 28.0, 21.0, WeatherCode.PARTLY_CLOUDY, "2024-01-16T06:44", "2024-01-16T19:33")
         )
 
         private val testWeather = Weather(

@@ -114,11 +114,11 @@ class WeatherViewModelTest {
         viewModel = createViewModel()
 
         viewModel.state.test {
-            awaitItem().temperatureUnit shouldBe TemperatureUnit.CELSIUS
+            awaitItem().temperatureUnit shouldBe TemperatureUnit.FAHRENHEIT
 
             viewModel.handleIntent(WeatherIntent.ToggleTemperatureUnit)
 
-            awaitItem().temperatureUnit shouldBe TemperatureUnit.FAHRENHEIT
+            awaitItem().temperatureUnit shouldBe TemperatureUnit.CELSIUS
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -186,7 +186,7 @@ class WeatherViewModelTest {
         )
 
         private val testDailyForecast = listOf(
-            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY)
+            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY, "2024-01-15T06:45", "2024-01-15T19:32")
         )
     }
 }
