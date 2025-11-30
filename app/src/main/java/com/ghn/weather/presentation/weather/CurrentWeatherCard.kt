@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.ghn.weather.domain.model.CurrentWeather
 import com.ghn.weather.domain.model.Location
 import com.ghn.weather.domain.model.WeatherCode
+import com.ghn.weather.presentation.weather.viewmodel.TemperatureUnit
 import com.ghn.weather.ui.theme.*
 
 // ═══════════════════════════════════════════════════════════════════════════════

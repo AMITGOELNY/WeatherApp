@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Weather App</string>
+
+    <!-- Weather Screen -->
+    <string name="weather_title">Weather</string>
+    <string name="refresh">Refresh</string>
+    <string name="loading_forecast">Loading forecast…</string>
+    <string name="unable_to_load">Unable to Load</string>
+    <string name="try_again">Try Again</string>
+    <string name="hourly_forecast">Hourly Forecast</string>
+    <string name="seven_day_forecast">7-Day Forecast</string>
 </resources>

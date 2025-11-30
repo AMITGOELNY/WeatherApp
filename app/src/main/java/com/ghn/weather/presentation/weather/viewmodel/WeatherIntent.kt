@@ -1,4 +1,4 @@
-package com.ghn.weather.presentation.weather
+package com.ghn.weather.presentation.weather.viewmodel
 
 sealed class WeatherIntent {
     data class LoadWeather(val latitude: Double, val longitude: Double) : WeatherIntent()

@@ -45,24 +45,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ghn.weather.R
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ghn.weather.domain.model.CurrentWeather
+import com.ghn.weather.domain.model.DailyWeather
+import com.ghn.weather.domain.model.HourlyWeather
+import com.ghn.weather.domain.model.Location
 import com.ghn.weather.domain.model.WeatherCode
+import com.ghn.weather.presentation.weather.viewmodel.TemperatureUnit
+import com.ghn.weather.presentation.weather.viewmodel.WeatherEffect
+import com.ghn.weather.presentation.weather.viewmodel.WeatherIntent
+import com.ghn.weather.presentation.weather.viewmodel.WeatherState
+import com.ghn.weather.presentation.weather.viewmodel.WeatherViewModel
 import com.ghn.weather.ui.theme.*
 import kotlinx.coroutines.delay
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// WEATHER SCREEN
-// Premium dark-mode weather experience with atmospheric effects
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,6 +103,22 @@ fun WeatherScreen(
         }
     }
 
+    WeatherScreenContent(
+        theme = theme,
+        state = state,
+        snackbarHostState = snackbarHostState,
+        onHandleIntent = viewModel::handleIntent
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WeatherScreenContent(
+    theme: AtmosphericTheme,
+    state: WeatherState,
+    snackbarHostState: SnackbarHostState,
+    onHandleIntent: (WeatherIntent) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,17 +131,17 @@ fun WeatherScreen(
             topBar = {
                 WeatherTopBar(
                     temperatureUnit = state.temperatureUnit,
-                    onToggleUnit = { viewModel.handleIntent(WeatherIntent.ToggleTemperatureUnit) },
-                    onRefresh = { viewModel.handleIntent(WeatherIntent.RefreshWeather) },
+                    onToggleUnit = { onHandleIntent(WeatherIntent.ToggleTemperatureUnit) },
+                    onRefresh = { onHandleIntent(WeatherIntent.RefreshWeather) },
                     theme = theme
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
-            containerColor = androidx.compose.ui.graphics.Color.Transparent
+            containerColor = Color.Transparent
         ) { paddingValues ->
             PullToRefreshBox(
                 isRefreshing = state.isRefreshing,
-                onRefresh = { viewModel.handleIntent(WeatherIntent.RefreshWeather) },
+                onRefresh = { onHandleIntent(WeatherIntent.RefreshWeather) },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
@@ -126,29 +150,23 @@ fun WeatherScreen(
                     state.isLoading -> {
                         LoadingContent(theme = theme)
                     }
+
                     state.error != null && state.currentWeather == null -> {
                         ErrorContent(
-                            error = state.error ?: "Unknown error",
-                            onRetry = { viewModel.handleIntent(WeatherIntent.Retry) },
+                            error = state.error,
+                            onRetry = { onHandleIntent(WeatherIntent.Retry) },
                             theme = theme
                         )
                     }
+
                     state.currentWeather != null -> {
-                        WeatherContent(
-                            state = state,
-                            theme = theme
-                        )
+                        WeatherContent(state = state, theme = theme)
                     }
                 }
             }
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// TOP BAR
-// Minimal, floating top bar with controls
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 private fun WeatherTopBar(
@@ -165,15 +183,13 @@ private fun WeatherTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // App title
         Text(
-            text = "Weather",
+            text = stringResource(R.string.weather_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold,
             color = theme.textPrimary
         )
 
-        // Controls
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -192,7 +208,7 @@ private fun WeatherTopBar(
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
-                    contentDescription = "Refresh",
+                    contentDescription = stringResource(R.string.refresh),
                     tint = theme.textPrimary,
                     modifier = Modifier.size(20.dp)
                 )
@@ -200,11 +216,6 @@ private fun WeatherTopBar(
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// LOADING STATE
-// Elegant loading animation with pulsing icon
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 private fun LoadingContent(theme: AtmosphericTheme) {
@@ -256,18 +267,13 @@ private fun LoadingContent(theme: AtmosphericTheme) {
             )
 
             Text(
-                text = "Loading forecast...",
+                text = stringResource(R.string.loading_forecast),
                 style = MaterialTheme.typography.bodyLarge,
                 color = theme.textSecondary
             )
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ERROR STATE
-// Clean error display with retry action
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 private fun ErrorContent(
@@ -324,7 +330,7 @@ private fun ErrorContent(
                 }
 
                 Text(
-                    text = "Unable to Load",
+                    text = stringResource(R.string.unable_to_load),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = theme.textPrimary
@@ -349,7 +355,7 @@ private fun ErrorContent(
                         .padding(horizontal = 28.dp, vertical = 14.dp)
                 ) {
                     Text(
-                        text = "Try Again",
+                        text = stringResource(R.string.try_again),
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = Obsidian,
@@ -360,11 +366,6 @@ private fun ErrorContent(
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// WEATHER CONTENT
-// Main scrollable content with forecast sections
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 private fun WeatherContent(
@@ -414,7 +415,7 @@ private fun WeatherContent(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         SectionHeader(
-                            title = "Hourly Forecast",
+                            title = stringResource(R.string.hourly_forecast),
                             accentColor = Aurora
                         )
 
@@ -448,7 +449,7 @@ private fun WeatherContent(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         SectionHeader(
-                            title = "7-Day Forecast",
+                            title = stringResource(R.string.seven_day_forecast),
                             accentColor = Celestial
                         )
                     }
@@ -477,4 +478,54 @@ private fun WeatherContent(
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun WeatherScreenContentPreview() {
+    val previewState = WeatherState(
+        isLoading = false,
+        isRefreshing = false,
+        currentWeather = CurrentWeather(
+            time = "2024-01-15T14:00",
+            temperature = 28.0,
+            apparentTemperature = 30.0,
+            humidity = 65,
+            windSpeed = 12.5,
+            weatherCode = WeatherCode.CLEAR_SKY
+        ),
+        hourlyForecast = listOf(
+            HourlyWeather("2024-01-15T15:00", 29.0, 62, 11.0, WeatherCode.CLEAR_SKY),
+            HourlyWeather("2024-01-15T16:00", 28.0, 64, 10.5, WeatherCode.MAINLY_CLEAR),
+            HourlyWeather("2024-01-15T17:00", 27.0, 66, 9.0, WeatherCode.PARTLY_CLOUDY),
+            HourlyWeather("2024-01-15T18:00", 25.0, 70, 8.0, WeatherCode.PARTLY_CLOUDY),
+            HourlyWeather("2024-01-15T19:00", 24.0, 72, 7.5, WeatherCode.CLEAR_SKY)
+        ),
+        dailyForecast = listOf(
+            DailyWeather("2024-01-15", 30.0, 22.0, WeatherCode.CLEAR_SKY),
+            DailyWeather("2024-01-16", 28.0, 21.0, WeatherCode.PARTLY_CLOUDY),
+            DailyWeather("2024-01-17", 26.0, 20.0, WeatherCode.LIGHT_RAIN),
+            DailyWeather("2024-01-18", 25.0, 19.0, WeatherCode.MODERATE_RAIN),
+            DailyWeather("2024-01-19", 27.0, 20.0, WeatherCode.MAINLY_CLEAR),
+            DailyWeather("2024-01-20", 29.0, 21.0, WeatherCode.CLEAR_SKY),
+            DailyWeather("2024-01-21", 30.0, 22.0, WeatherCode.CLEAR_SKY)
+        ),
+        location = Location(
+            latitude = 25.7617,
+            longitude = -80.1918,
+            timezone = "America/New_York"
+        ),
+        error = null,
+        temperatureUnit = TemperatureUnit.CELSIUS
+    )
+
+    val theme = getWeatherTheme(WeatherCode.CLEAR_SKY)
+
+    WeatherScreenContent(
+        theme = theme,
+        state = previewState,
+        snackbarHostState = remember { SnackbarHostState() },
+        onHandleIntent = {}
+    )
 }

@@ -1,4 +1,4 @@
-package com.ghn.weather.presentation.weather
+package com.ghn.weather.presentation.weather.viewmodel
 
 import com.ghn.weather.domain.model.CurrentWeather
 import com.ghn.weather.domain.model.DailyWeather

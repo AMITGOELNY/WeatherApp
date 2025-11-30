@@ -1,4 +1,4 @@
-package com.ghn.weather.presentation.weather
+package com.ghn.weather.presentation.weather.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

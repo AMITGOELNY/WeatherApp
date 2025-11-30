@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.ghn.weather.domain.model.DailyWeather
 import com.ghn.weather.domain.model.HourlyWeather
 import com.ghn.weather.domain.model.WeatherCode
+import com.ghn.weather.presentation.weather.viewmodel.TemperatureUnit
 import com.ghn.weather.ui.theme.*
 import java.time.LocalDate
 import java.time.LocalDateTime
