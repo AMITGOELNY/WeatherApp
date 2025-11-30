@@ -165,9 +165,6 @@ fun TemperatureUnitToggle(
         label = "toggleScale"
     )
 
-    val celsiusLabel = stringResource(R.string.temperature_celsius)
-    val fahrenheitLabel = stringResource(R.string.temperature_fahrenheit)
-
     Box(
         modifier = modifier
             .scale(scale)
@@ -194,7 +191,11 @@ fun TemperatureUnitToggle(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = if (currentUnit == TemperatureUnit.CELSIUS) celsiusLabel else fahrenheitLabel,
+            text = if (currentUnit == TemperatureUnit.CELSIUS) {
+                stringResource(R.string.temperature_celsius)
+            } else {
+                stringResource(R.string.temperature_fahrenheit)
+            },
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
             color = Aurora
@@ -286,10 +287,12 @@ fun DailyForecastItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Day name
-            val todayLabel = stringResource(R.string.today)
-            val tomorrowLabel = stringResource(R.string.tomorrow)
             Text(
-                text = formatDayName(dailyWeather.date, todayLabel, tomorrowLabel),
+                text = formatDayName(
+                    dailyWeather.date,
+                    stringResource(R.string.today),
+                    stringResource(R.string.tomorrow)
+                ),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
                 color = theme.textPrimary,

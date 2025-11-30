@@ -17,9 +17,7 @@
     <string name="wind_speed_kmh">KM/H</string>
     <string name="wind_speed_mph">MPH</string>
     <string name="feels_label">FEELS</string>
-    <string name="sunrise_time">6:45 AM</string>
     <string name="sunrise_label">Sunrise</string>
-    <string name="sunset_time">7:32 PM</string>
     <string name="sunset_label">Sunset</string>
 
     <!-- Weather Components -->

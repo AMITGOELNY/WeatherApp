@@ -64,12 +64,11 @@ fun CurrentWeatherCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Location
-            val unknownLocation = stringResource(R.string.unknown_location)
             location?.let {
                 val cityName = it.timezone
                     .replace("_", " ")
                     .split("/")
-                    .lastOrNull() ?: unknownLocation
+                    .lastOrNull() ?: stringResource(R.string.unknown_location)
 
                 Text(
                     text = cityName.uppercase(),
@@ -129,14 +128,6 @@ fun CurrentWeatherCard(
             Spacer(modifier = Modifier.height(32.dp))
 
             // Weather metrics row
-            val windSpeedLabel = if (temperatureUnit == TemperatureUnit.CELSIUS) {
-                stringResource(R.string.wind_speed_kmh)
-            } else {
-                stringResource(R.string.wind_speed_mph)
-            }
-            val humidityLabel = stringResource(R.string.humidity_label)
-            val feelsLabel = stringResource(R.string.feels_label)
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -144,7 +135,7 @@ fun CurrentWeatherCard(
                 WeatherMetric(
                     icon = Icons.Default.WaterDrop,
                     value = "${currentWeather.humidity}%",
-                    label = humidityLabel,
+                    label = stringResource(R.string.humidity_label),
                     accentColor = RainBlue,
                     theme = theme
                 )
@@ -152,7 +143,11 @@ fun CurrentWeatherCard(
                 WeatherMetric(
                     icon = Icons.Default.Air,
                     value = "${currentWeather.windSpeed.toInt()}",
-                    label = windSpeedLabel,
+                    label = if (temperatureUnit == TemperatureUnit.CELSIUS) {
+                        stringResource(R.string.wind_speed_kmh)
+                    } else {
+                        stringResource(R.string.wind_speed_mph)
+                    },
                     accentColor = Aurora,
                     theme = theme
                 )
@@ -160,7 +155,7 @@ fun CurrentWeatherCard(
                 WeatherMetric(
                     icon = Icons.Default.Thermostat,
                     value = "${currentWeather.apparentTemperature.toInt()}°",
-                    label = feelsLabel,
+                    label = stringResource(R.string.feels_label),
                     accentColor = if (currentWeather.apparentTemperature > 25) TempHot else TempCool,
                     theme = theme
                 )
@@ -169,7 +164,12 @@ fun CurrentWeatherCard(
             Spacer(modifier = Modifier.height(28.dp))
 
             // Sun times bar
-            SunTimesBar(theme = theme)
+            // TODO: Replace with actual sunrise/sunset data from API
+            SunTimesBar(
+                sunriseTime = "6:45 AM",
+                sunsetTime = "7:32 PM",
+                theme = theme
+            )
         }
     }
 }
@@ -221,14 +221,11 @@ private fun WeatherMetric(
 
 @Composable
 private fun SunTimesBar(
+    sunriseTime: String,
+    sunsetTime: String,
     theme: AtmosphericTheme,
     modifier: Modifier = Modifier
 ) {
-    val sunriseLabel = stringResource(R.string.sunrise_label)
-    val sunsetLabel = stringResource(R.string.sunset_label)
-    val sunriseTime = stringResource(R.string.sunrise_time)
-    val sunsetTime = stringResource(R.string.sunset_time)
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -245,7 +242,7 @@ private fun SunTimesBar(
         ) {
             Icon(
                 imageVector = Icons.Default.WbSunny,
-                contentDescription = sunriseLabel,
+                contentDescription = stringResource(R.string.sunrise_label),
                 modifier = Modifier.size(20.dp),
                 tint = SunnyGold
             )
@@ -257,7 +254,7 @@ private fun SunTimesBar(
                     color = theme.textPrimary
                 )
                 Text(
-                    text = sunriseLabel,
+                    text = stringResource(R.string.sunrise_label),
                     style = MaterialTheme.typography.labelSmall,
                     color = theme.textSecondary
                 )
@@ -279,7 +276,7 @@ private fun SunTimesBar(
         ) {
             Icon(
                 imageVector = Icons.Default.WbTwilight,
-                contentDescription = sunsetLabel,
+                contentDescription = stringResource(R.string.sunset_label),
                 modifier = Modifier.size(20.dp),
                 tint = SolarFlare
             )
@@ -291,7 +288,7 @@ private fun SunTimesBar(
                     color = theme.textPrimary
                 )
                 Text(
-                    text = sunsetLabel,
+                    text = stringResource(R.string.sunset_label),
                     style = MaterialTheme.typography.labelSmall,
                     color = theme.textSecondary
                 )
