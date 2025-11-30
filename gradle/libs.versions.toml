@@ -16,6 +16,10 @@ playServicesLocation = "21.3.0"
 composeIconsExtended = "1.7.8"
 composeAnimation = "1.9.5"
 composeFoundation = "1.9.5"
+mockk = "1.13.13"
+kotest = "5.9.1"
+coroutinesTest = "1.9.0"
+turbine = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +58,12 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 androidx-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIconsExtended" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeAnimation" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeFoundation" }
+
+# Testing
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
