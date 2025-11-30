@@ -9,4 +9,22 @@
     <string name="try_again">Try Again</string>
     <string name="hourly_forecast">Hourly Forecast</string>
     <string name="seven_day_forecast">7-Day Forecast</string>
+
+    <!-- Current Weather Card -->
+    <string name="unknown_location">Unknown</string>
+    <string name="feels_like">Feels like %1$d°</string>
+    <string name="humidity_label">HUMIDITY</string>
+    <string name="wind_speed_kmh">KM/H</string>
+    <string name="wind_speed_mph">MPH</string>
+    <string name="feels_label">FEELS</string>
+    <string name="sunrise_time">6:45 AM</string>
+    <string name="sunrise_label">Sunrise</string>
+    <string name="sunset_time">7:32 PM</string>
+    <string name="sunset_label">Sunset</string>
+
+    <!-- Weather Components -->
+    <string name="temperature_celsius">°C</string>
+    <string name="temperature_fahrenheit">°F</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 </resources>
