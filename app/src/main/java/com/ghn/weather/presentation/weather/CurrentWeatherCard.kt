@@ -33,17 +33,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.ghn.weather.R
 import com.ghn.weather.domain.model.CurrentWeather
 import com.ghn.weather.domain.model.Location
 import com.ghn.weather.domain.model.WeatherCode
 import com.ghn.weather.presentation.weather.viewmodel.TemperatureUnit
 import com.ghn.weather.ui.theme.*
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// HERO CURRENT WEATHER CARD
-// The main attraction - large temperature display with atmospheric styling
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 fun CurrentWeatherCard(
@@ -67,11 +64,12 @@ fun CurrentWeatherCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Location
+            val unknownLocation = stringResource(R.string.unknown_location)
             location?.let {
                 val cityName = it.timezone
                     .replace("_", " ")
                     .split("/")
-                    .lastOrNull() ?: "Unknown"
+                    .lastOrNull() ?: unknownLocation
 
                 Text(
                     text = cityName.uppercase(),
@@ -122,7 +120,7 @@ fun CurrentWeatherCard(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "Feels like ${currentWeather.apparentTemperature.toInt()}°",
+                    text = stringResource(R.string.feels_like, currentWeather.apparentTemperature.toInt()),
                     style = MaterialTheme.typography.bodyMedium,
                     color = theme.accentColor
                 )
@@ -131,7 +129,13 @@ fun CurrentWeatherCard(
             Spacer(modifier = Modifier.height(32.dp))
 
             // Weather metrics row
-            val windSpeedLabel = if (temperatureUnit == TemperatureUnit.CELSIUS) "KM/H" else "MPH"
+            val windSpeedLabel = if (temperatureUnit == TemperatureUnit.CELSIUS) {
+                stringResource(R.string.wind_speed_kmh)
+            } else {
+                stringResource(R.string.wind_speed_mph)
+            }
+            val humidityLabel = stringResource(R.string.humidity_label)
+            val feelsLabel = stringResource(R.string.feels_label)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -140,7 +144,7 @@ fun CurrentWeatherCard(
                 WeatherMetric(
                     icon = Icons.Default.WaterDrop,
                     value = "${currentWeather.humidity}%",
-                    label = "HUMIDITY",
+                    label = humidityLabel,
                     accentColor = RainBlue,
                     theme = theme
                 )
@@ -156,7 +160,7 @@ fun CurrentWeatherCard(
                 WeatherMetric(
                     icon = Icons.Default.Thermostat,
                     value = "${currentWeather.apparentTemperature.toInt()}°",
-                    label = "FEELS",
+                    label = feelsLabel,
                     accentColor = if (currentWeather.apparentTemperature > 25) TempHot else TempCool,
                     theme = theme
                 )
@@ -220,6 +224,11 @@ private fun SunTimesBar(
     theme: AtmosphericTheme,
     modifier: Modifier = Modifier
 ) {
+    val sunriseLabel = stringResource(R.string.sunrise_label)
+    val sunsetLabel = stringResource(R.string.sunset_label)
+    val sunriseTime = stringResource(R.string.sunrise_time)
+    val sunsetTime = stringResource(R.string.sunset_time)
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -236,19 +245,19 @@ private fun SunTimesBar(
         ) {
             Icon(
                 imageVector = Icons.Default.WbSunny,
-                contentDescription = "Sunrise",
+                contentDescription = sunriseLabel,
                 modifier = Modifier.size(20.dp),
                 tint = SunnyGold
             )
             Column {
                 Text(
-                    text = "6:45 AM",
+                    text = sunriseTime,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     color = theme.textPrimary
                 )
                 Text(
-                    text = "Sunrise",
+                    text = sunriseLabel,
                     style = MaterialTheme.typography.labelSmall,
                     color = theme.textSecondary
                 )
@@ -270,19 +279,19 @@ private fun SunTimesBar(
         ) {
             Icon(
                 imageVector = Icons.Default.WbTwilight,
-                contentDescription = "Sunset",
+                contentDescription = sunsetLabel,
                 modifier = Modifier.size(20.dp),
                 tint = SolarFlare
             )
             Column {
                 Text(
-                    text = "7:32 PM",
+                    text = sunsetTime,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     color = theme.textPrimary
                 )
                 Text(
-                    text = "Sunset",
+                    text = sunsetLabel,
                     style = MaterialTheme.typography.labelSmall,
                     color = theme.textSecondary
                 )

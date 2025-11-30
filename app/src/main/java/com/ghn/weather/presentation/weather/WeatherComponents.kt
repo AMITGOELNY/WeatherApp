@@ -49,7 +49,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ghn.weather.R
 import com.ghn.weather.domain.model.DailyWeather
 import com.ghn.weather.domain.model.HourlyWeather
 import com.ghn.weather.domain.model.WeatherCode
@@ -58,11 +60,6 @@ import com.ghn.weather.ui.theme.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// WEATHER ICON COMPONENT
-// Animated icons with optional glow effect for dramatic weather conditions
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 fun WeatherIcon(
@@ -150,11 +147,6 @@ fun WeatherIcon(
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// TEMPERATURE UNIT TOGGLE
-// Minimal pill-shaped toggle with smooth animations
-// ═══════════════════════════════════════════════════════════════════════════════
-
 @Composable
 fun TemperatureUnitToggle(
     currentUnit: TemperatureUnit,
@@ -172,6 +164,9 @@ fun TemperatureUnitToggle(
         ),
         label = "toggleScale"
     )
+
+    val celsiusLabel = stringResource(R.string.temperature_celsius)
+    val fahrenheitLabel = stringResource(R.string.temperature_fahrenheit)
 
     Box(
         modifier = modifier
@@ -199,18 +194,13 @@ fun TemperatureUnitToggle(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = if (currentUnit == TemperatureUnit.CELSIUS) "°C" else "°F",
+            text = if (currentUnit == TemperatureUnit.CELSIUS) celsiusLabel else fahrenheitLabel,
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
             color = Aurora
         )
     }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// HOURLY FORECAST ITEM
-// Compact horizontal card for hourly weather data
-// ═══════════════════════════════════════════════════════════════════════════════
 
 @Composable
 fun HourlyForecastItem(
@@ -275,11 +265,6 @@ fun HourlyForecastItem(
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// DAILY FORECAST ITEM
-// Elegant card showing day's weather summary
-// ═══════════════════════════════════════════════════════════════════════════════
-
 @Composable
 fun DailyForecastItem(
     dailyWeather: DailyWeather,
@@ -301,8 +286,10 @@ fun DailyForecastItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Day name
+            val todayLabel = stringResource(R.string.today)
+            val tomorrowLabel = stringResource(R.string.tomorrow)
             Text(
-                text = formatDayName(dailyWeather.date),
+                text = formatDayName(dailyWeather.date, todayLabel, tomorrowLabel),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
                 color = theme.textPrimary,
@@ -365,11 +352,6 @@ fun DailyForecastItem(
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION HEADER
-// Elegant section titles with accent line
-// ═══════════════════════════════════════════════════════════════════════════════
-
 @Composable
 fun SectionHeader(
     title: String,
@@ -397,10 +379,6 @@ fun SectionHeader(
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
-// ═══════════════════════════════════════════════════════════════════════════════
-
 private fun formatHour(timeString: String): String =
     try {
         val dateTime = LocalDateTime.parse(timeString)
@@ -409,41 +387,17 @@ private fun formatHour(timeString: String): String =
         timeString
     }
 
-private fun formatDayName(dateString: String): String =
+private fun formatDayName(dateString: String, todayLabel: String, tomorrowLabel: String): String =
     try {
         val date = LocalDate.parse(dateString)
         val today = LocalDate.now()
         val tomorrow = today.plusDays(1)
 
         when (date) {
-            today -> "Today"
-            tomorrow -> "Tomorrow"
+            today -> todayLabel
+            tomorrow -> tomorrowLabel
             else -> date.format(DateTimeFormatter.ofPattern("EEEE"))
         }
-    } catch (e: Exception) {
-        dateString
-    }
-
-private fun formatTime(timeString: String): String =
-    try {
-        val dateTime = LocalDateTime.parse(timeString)
-        dateTime.format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"))
-    } catch (e: Exception) {
-        timeString
-    }
-
-private fun formatDate(dateString: String): String =
-    try {
-        val date = LocalDate.parse(dateString)
-        date.format(DateTimeFormatter.ofPattern("EEE, MMM dd"))
-    } catch (e: Exception) {
-        dateString
-    }
-
-private fun formatDateShort(dateString: String): String =
-    try {
-        val date = LocalDate.parse(dateString)
-        date.format(DateTimeFormatter.ofPattern("EEE"))
     } catch (e: Exception) {
         dateString
     }
